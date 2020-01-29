@@ -4,11 +4,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.IntegerRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders.*
+import kotlinx.android.synthetic.main.activity_main.*
+
 
 private const val TAG = "MainActivity"
 private const val KEY_INDEX = "index"
@@ -16,29 +21,40 @@ private const val KEY_INDEX = "index"
 class MainActivity : AppCompatActivity() {
 
     private val tViewModel: TTTViewModel by lazy{
-        ViewModelProviders.of(this).get(TTTViewModel::class.java)
+        of(this).get(TTTViewModel::class.java)
     }
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        savedInstanceState.putInt(KEY_INDEX, tViewModel.currentIndex)
+    }
+
+    //Something about this was part of the third requirement
+    /*override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+    }*/
+
+    var turn = 1
+    var dootX = "X Wins!"
+    var dootO = "O Wins!"
+    var dootDraw = "It's a draw!"
+    var b1 = 10
+    var b2 = 20
+    var b3 = 30
+    var b4 = 40
+    var b5 = 50
+    var b6 = 60
+    var b7 = 70
+    var b8 = 80
+    var b9 = 90
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val currentIndex = savedInstanceState?.getInt(KEY_INDEX, 0) ?: 0
-        tViewModel.currentIndex = currentIndex
-
-        var turn = 1
-        var dootX = "X Wins!"
-        var dootO = "O Wins!"
-        var dootDraw = "It's a draw!"
-        var b1 = 10
-        var b2 = 20
-        var b3 = 30
-        var b4 = 40
-        var b5 = 50
-        var b6 = 60
-        var b7 = 70
-        var b8 = 80
-        var b9 = 90
+        //val currentIndex = savedInstanceState?.getInt(KEY_INDEX, 0) ?: 0
+        val provider: ViewModelProvider = of(this)
+        val tViewModel = provider.get(TTTViewModel::class.java)
+        //tViewModel.currentIndex = currentIndex
 
         val button1 = findViewById(R.id.button1) as Button
         val button2 = findViewById(R.id.button2) as Button
@@ -52,7 +68,124 @@ class MainActivity : AppCompatActivity() {
         val buttonPlayAgain = findViewById(R.id.buttonPlayAgain) as Button
 
         button1.setOnClickListener{
-            if (turn%2 == 1) {
+            outsideB1()//See below.  A little refactoring as a bit of a proof of concept
+            /*if (turn%2 == 1) {
+                button1.text = "X"
+                b1 = 1
+                if(b1 == b2 && b1 == b3){
+                    turn %= 2
+                    if (turn == 1)
+                        Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                    else
+                        Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    button1.isClickable = false
+                    button2.isClickable = false
+                    button3.isClickable = false
+                    button4.isClickable = false
+                    button5.isClickable = false
+                    button6.isClickable = false
+                    button7.isClickable = false
+                    button8.isClickable = false
+                    button9.isClickable = false
+                }
+                if(b1 == b4 && b1 == b7){
+                    turn %= 2
+                    if (turn == 1)
+                        Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                    else
+                        Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    button1.isClickable = false
+                    button2.isClickable = false
+                    button3.isClickable = false
+                    button4.isClickable = false
+                    button5.isClickable = false
+                    button6.isClickable = false
+                    button7.isClickable = false
+                    button8.isClickable = false
+                    button9.isClickable = false
+                }
+                if(b1 == b5 && b1 == b9){
+                    turn %= 2
+                    if (turn == 1)
+                        Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                    else
+                        Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    button1.isClickable = false
+                    button2.isClickable = false
+                    button3.isClickable = false
+                    button4.isClickable = false
+                    button5.isClickable = false
+                    button6.isClickable = false
+                    button7.isClickable = false
+                    button8.isClickable = false
+                    button9.isClickable = false
+                }
+                turn += 1
+                button1.isClickable = false
+                if (turn == 10){
+                    Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+                }
+                //return null
+            }
+            else {
+                button1.text = "O"
+                b1 = 2
+                if(b1 == b2 && b1 == b3){
+                    turn %= 2
+                    if (turn == 1)
+                        Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                    else
+                        Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    button1.isClickable = false
+                    button2.isClickable = false
+                    button3.isClickable = false
+                    button4.isClickable = false
+                    button5.isClickable = false
+                    button6.isClickable = false
+                    button7.isClickable = false
+                    button8.isClickable = false
+                    button9.isClickable = false
+                }
+                if(b1 == b4 && b1 == b7){
+                    turn %= 2
+                    if (turn == 1)
+                        Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                    else
+                        Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    button1.isClickable = false
+                    button2.isClickable = false
+                    button3.isClickable = false
+                    button4.isClickable = false
+                    button5.isClickable = false
+                    button6.isClickable = false
+                    button7.isClickable = false
+                    button8.isClickable = false
+                    button9.isClickable = false
+                }
+                if(b1 == b5 && b1 == b9){
+                    turn %= 2
+                    if (turn == 1)
+                        Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                    else
+                        Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    button1.isClickable = false
+                    button2.isClickable = false
+                    button3.isClickable = false
+                    button4.isClickable = false
+                    button5.isClickable = false
+                    button6.isClickable = false
+                    button7.isClickable = false
+                    button8.isClickable = false
+                    button9.isClickable = false
+                }
+                turn += 1
+                button1.isClickable = false
+                if (turn == 10){
+                    Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+                }
+                //return null
+            }*/
+            /*if (turn%2 == 1) {
                 button1.text = "X"
                 b1 = 1
             }
@@ -112,7 +245,7 @@ class MainActivity : AppCompatActivity() {
             button1.isClickable = false
             if (turn == 10){
                 Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
-            }
+            }*/
         }
         button2.setOnClickListener{
             if (turn%2 == 1) {
@@ -585,13 +718,127 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onSaveInstanceState(savedInstanceState: Bundle?) {
-        super.onSaveInstanceState(savedInstanceState)
-        if (savedInstanceState != null) {
-            savedInstanceState.putInt(KEY_INDEX, tViewModel.currentIndex)
+    //This was mostly a proof of concept and not required
+    private fun outsideB1(): Int {
+        if (turn%2 == 1) {
+            button1.text = "X"
+            b1 = 1
+            if(b1 == b2 && b1 == b3){
+                turn %= 2
+                if (turn == 1)
+                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                button1.isClickable = false
+                button2.isClickable = false
+                button3.isClickable = false
+                button4.isClickable = false
+                button5.isClickable = false
+                button6.isClickable = false
+                button7.isClickable = false
+                button8.isClickable = false
+                button9.isClickable = false
+            }
+            if(b1 == b4 && b1 == b7){
+                turn %= 2
+                if (turn == 1)
+                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                button1.isClickable = false
+                button2.isClickable = false
+                button3.isClickable = false
+                button4.isClickable = false
+                button5.isClickable = false
+                button6.isClickable = false
+                button7.isClickable = false
+                button8.isClickable = false
+                button9.isClickable = false
+            }
+            if(b1 == b5 && b1 == b9){
+                turn %= 2
+                if (turn == 1)
+                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                button1.isClickable = false
+                button2.isClickable = false
+                button3.isClickable = false
+                button4.isClickable = false
+                button5.isClickable = false
+                button6.isClickable = false
+                button7.isClickable = false
+                button8.isClickable = false
+                button9.isClickable = false
+            }
+            turn += 1
+            button1.isClickable = false
+            if (turn == 10){
+                Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+            }
+            return b1
+        }
+        else {
+            button1.text = "O"
+            b1 = 2
+            if(b1 == b2 && b1 == b3){
+                turn %= 2
+                if (turn == 1)
+                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                button1.isClickable = false
+                button2.isClickable = false
+                button3.isClickable = false
+                button4.isClickable = false
+                button5.isClickable = false
+                button6.isClickable = false
+                button7.isClickable = false
+                button8.isClickable = false
+                button9.isClickable = false
+            }
+            if(b1 == b4 && b1 == b7){
+                turn %= 2
+                if (turn == 1)
+                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                button1.isClickable = false
+                button2.isClickable = false
+                button3.isClickable = false
+                button4.isClickable = false
+                button5.isClickable = false
+                button6.isClickable = false
+                button7.isClickable = false
+                button8.isClickable = false
+                button9.isClickable = false
+            }
+            if(b1 == b5 && b1 == b9){
+                turn %= 2
+                if (turn == 1)
+                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                else
+                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                button1.isClickable = false
+                button2.isClickable = false
+                button3.isClickable = false
+                button4.isClickable = false
+                button5.isClickable = false
+                button6.isClickable = false
+                button7.isClickable = false
+                button8.isClickable = false
+                button9.isClickable = false
+            }
+            turn += 1
+            button1.isClickable = false
+            if (turn == 10){
+                Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+            }
+            return b1
         }
     }
+
+
     override fun onStop() {
         super.onStop()
         Log.d(TAG, "onStop() called")
