@@ -1,5 +1,7 @@
 package com.example.lab02_tictactoe
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -12,6 +14,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.ViewModelProviders.*
+//import com.example.lab02_tictactoe.ChooseActivity.Companion.PLAYER_ONE
+//import com.example.lab02_tictactoe.ChooseActivity.Companion.PLAYER_TWO
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -34,6 +38,8 @@ class MainActivity : AppCompatActivity() {
     }*/
 
     var turn = 1
+    //val stringX = intent.getStringExtra(PLAYER_ONE)
+    //val stringO = intent.getStringExtra(PLAYER_TWO)
     var dootX = "X Wins!"
     var dootO = "O Wins!"
     var dootDraw = "It's a draw!"
@@ -46,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     var b7 = 70
     var b8 = 80
     var b9 = 90
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,18 +73,30 @@ class MainActivity : AppCompatActivity() {
         val button8 = findViewById(R.id.button8) as Button
         val button9 = findViewById(R.id.button9) as Button
         val buttonPlayAgain = findViewById(R.id.buttonPlayAgain) as Button
+        val buttonResultShare = findViewById(R.id.buttonShare) as Button
+        val buttonSymbol = findViewById(R.id.buttonSymbolChanger) as Button
 
+        buttonResultShare.visibility = View.INVISIBLE
+
+        buttonSymbol.setOnClickListener{
+            val intent = Intent(this, ChooseActivity::class.java)
+            startActivity(intent)
+        }
         button1.setOnClickListener{
-            outsideB1()//See below.  A little refactoring as a bit of a proof of concept
-            /*if (turn%2 == 1) {
+            buttonSymbol.isEnabled = false
+            if (turn%2 == 1) {
                 button1.text = "X"
                 b1 = 1
-                if(b1 == b2 && b1 == b3){
+                if (b1 == b2 && b1 == b3) {
                     turn %= 2
-                    if (turn == 1)
+                    if (turn == 1) {
                         Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                    else
+                        buttonResultShare.text = "Share X's game!"
+                    }
+                    else {
                         Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                        buttonResultShare.text = "Share O's game!"
+                    }
                     button1.isClickable = false
                     button2.isClickable = false
                     button3.isClickable = false
@@ -87,13 +106,18 @@ class MainActivity : AppCompatActivity() {
                     button7.isClickable = false
                     button8.isClickable = false
                     button9.isClickable = false
+                    buttonResultShare.visibility = View.VISIBLE
                 }
-                if(b1 == b4 && b1 == b7){
+                if (b1 == b4 && b1 == b7) {
                     turn %= 2
-                    if (turn == 1)
+                    if (turn == 1) {
                         Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                    else
+                        buttonResultShare.text = "Share X's game!"
+                    }
+                    else {
                         Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                        buttonResultShare.text = "Share O's game!"
+                    }
                     button1.isClickable = false
                     button2.isClickable = false
                     button3.isClickable = false
@@ -103,13 +127,18 @@ class MainActivity : AppCompatActivity() {
                     button7.isClickable = false
                     button8.isClickable = false
                     button9.isClickable = false
+                    buttonResultShare.visibility = View.VISIBLE
                 }
-                if(b1 == b5 && b1 == b9){
+                if (b1 == b5 && b1 == b9) {
                     turn %= 2
-                    if (turn == 1)
+                    if (turn == 1) {
                         Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                    else
+                        buttonResultShare.text = "Share X's game!"
+                    }
+                    else {
                         Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                        buttonResultShare.text = "Share O's game!"
+                    }
                     button1.isClickable = false
                     button2.isClickable = false
                     button3.isClickable = false
@@ -119,135 +148,19 @@ class MainActivity : AppCompatActivity() {
                     button7.isClickable = false
                     button8.isClickable = false
                     button9.isClickable = false
+                    buttonResultShare.visibility = View.VISIBLE
                 }
                 turn += 1
                 button1.isClickable = false
                 if (turn == 10){
                     Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share draw game!"
+                    buttonResultShare.visibility = View.VISIBLE
                 }
-                //return null
             }
-            else {
-                button1.text = "O"
-                b1 = 2
-                if(b1 == b2 && b1 == b3){
-                    turn %= 2
-                    if (turn == 1)
-                        Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                    else
-                        Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-                    button1.isClickable = false
-                    button2.isClickable = false
-                    button3.isClickable = false
-                    button4.isClickable = false
-                    button5.isClickable = false
-                    button6.isClickable = false
-                    button7.isClickable = false
-                    button8.isClickable = false
-                    button9.isClickable = false
-                }
-                if(b1 == b4 && b1 == b7){
-                    turn %= 2
-                    if (turn == 1)
-                        Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                    else
-                        Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-                    button1.isClickable = false
-                    button2.isClickable = false
-                    button3.isClickable = false
-                    button4.isClickable = false
-                    button5.isClickable = false
-                    button6.isClickable = false
-                    button7.isClickable = false
-                    button8.isClickable = false
-                    button9.isClickable = false
-                }
-                if(b1 == b5 && b1 == b9){
-                    turn %= 2
-                    if (turn == 1)
-                        Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                    else
-                        Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-                    button1.isClickable = false
-                    button2.isClickable = false
-                    button3.isClickable = false
-                    button4.isClickable = false
-                    button5.isClickable = false
-                    button6.isClickable = false
-                    button7.isClickable = false
-                    button8.isClickable = false
-                    button9.isClickable = false
-                }
-                turn += 1
-                button1.isClickable = false
-                if (turn == 10){
-                    Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
-                }
-                //return null
-            }*/
-            /*if (turn%2 == 1) {
-                button1.text = "X"
-                b1 = 1
-            }
-            else {
-                button1.text = "O"
-                b1 = 2
-            }
-            if(b1 == b2 && b1 == b3){
-                turn %= 2
-                if (turn == 1)
-                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
-                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-                button1.isClickable = false
-                button2.isClickable = false
-                button3.isClickable = false
-                button4.isClickable = false
-                button5.isClickable = false
-                button6.isClickable = false
-                button7.isClickable = false
-                button8.isClickable = false
-                button9.isClickable = false
-            }
-            if(b1 == b4 && b1 == b7){
-                turn %= 2
-                if (turn == 1)
-                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
-                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-                button1.isClickable = false
-                button2.isClickable = false
-                button3.isClickable = false
-                button4.isClickable = false
-                button5.isClickable = false
-                button6.isClickable = false
-                button7.isClickable = false
-                button8.isClickable = false
-                button9.isClickable = false
-            }
-            if(b1 == b5 && b1 == b9){
-                turn %= 2
-                if (turn == 1)
-                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
-                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-                button1.isClickable = false
-                button2.isClickable = false
-                button3.isClickable = false
-                button4.isClickable = false
-                button5.isClickable = false
-                button6.isClickable = false
-                button7.isClickable = false
-                button8.isClickable = false
-                button9.isClickable = false
-            }
-            turn += 1
-            button1.isClickable = false
-            if (turn == 10){
-                Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
-            }*/
         }
         button2.setOnClickListener{
+            buttonSymbol.isEnabled = false
             if (turn%2 == 1) {
                 button2.text = "X"
                 b2 = 1
@@ -258,10 +171,14 @@ class MainActivity : AppCompatActivity() {
             }
             if(b1 == b2 && b1 == b3){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -271,13 +188,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             if(b2 == b5 && b5 == b8){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -287,14 +209,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             turn += 1
             button2.isClickable = false
             if (turn == 10){
                 Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+                buttonResultShare.text = "Share draw game!"
+                buttonResultShare.visibility = View.VISIBLE
             }
         }
         button3.setOnClickListener{
+            buttonSymbol.isEnabled = false
             if (turn%2 == 1) {
                 button3.text = "X"
                 b3 = 1
@@ -305,10 +231,14 @@ class MainActivity : AppCompatActivity() {
             }
             if(b1 == b2 && b1 == b3){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -318,13 +248,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             if(b3 == b5 && b7 == b3){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -334,13 +269,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             if(b3 == b6 && b9 == b3){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -350,14 +290,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             turn += 1
             button3.isClickable = false
             if (turn == 10){
                 Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+                buttonResultShare.text = "Share draw game!"
+                buttonResultShare.visibility = View.VISIBLE
             }
         }
         button4.setOnClickListener{
+            buttonSymbol.isEnabled = false
             if (turn%2 == 1) {
                 button4.text = "X"
                 b4 = 1
@@ -368,24 +312,56 @@ class MainActivity : AppCompatActivity() {
             }
             if(b1 == b4 && b1 == b7){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
+                button1.isClickable = false
+                button2.isClickable = false
+                button3.isClickable = false
+                button4.isClickable = false
+                button5.isClickable = false
+                button6.isClickable = false
+                button7.isClickable = false
+                button8.isClickable = false
+                button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             if(b4 == b5 && b4 == b6){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
-                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()            }
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
+                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
+                button1.isClickable = false
+                button2.isClickable = false
+                button3.isClickable = false
+                button4.isClickable = false
+                button5.isClickable = false
+                button6.isClickable = false
+                button7.isClickable = false
+                button8.isClickable = false
+                button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
+            }
             turn += 1
             button4.isClickable = false
             if (turn == 10){
                 Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+                buttonResultShare.text = "Share draw game!"
+                buttonResultShare.visibility = View.VISIBLE
             }
         }
         button5.setOnClickListener{
+            buttonSymbol.isEnabled = false
             if (turn%2 == 1) {
                 button5.text = "X"
                 b5 = 1
@@ -396,10 +372,14 @@ class MainActivity : AppCompatActivity() {
             }
             if(b1 == b5 && b1 == b9){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -409,13 +389,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             if(b2 == b5 && b2 == b8){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -425,13 +410,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             if(b3 == b5 && b7 == b3){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -441,13 +431,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             if(b4 == b5 && b4 == b6){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -457,14 +452,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             turn += 1
             button5.isClickable = false
             if (turn == 10){
                 Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+                buttonResultShare.text = "Share draw game!"
+                buttonResultShare.visibility = View.VISIBLE
             }
         }
         button6.setOnClickListener{
+            buttonSymbol.isEnabled = false
             if (turn%2 == 1) {
                 button6.text = "X"
                 b6 = 1
@@ -475,10 +474,14 @@ class MainActivity : AppCompatActivity() {
             }
             if(b3 == b6 && b9 == b3){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -488,13 +491,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             if(b4 == b5 && b4 == b6){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -504,14 +512,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             button6.isClickable = false
             turn += 1
             if (turn == 10){
                 Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+                buttonResultShare.text = "Share draw game!"
+                buttonResultShare.visibility = View.VISIBLE
             }
         }
         button7.setOnClickListener{
+            buttonSymbol.isEnabled = false
             if (turn%2 == 1) {
                 button7.text = "X"
                 b7 = 1
@@ -522,10 +534,14 @@ class MainActivity : AppCompatActivity() {
             }
             if(b1 == b4 && b1 == b7){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -535,13 +551,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             if(b3 == b5 && b7 == b3){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -551,13 +572,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             if(b7 == b8 && b7 == b9){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -567,14 +593,17 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             turn += 1
             button7.isClickable = false
             if (turn == 10){
                 Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+                buttonResultShare.visibility = View.VISIBLE
             }
         }
         button8.setOnClickListener{
+            buttonSymbol.isEnabled = false
             if (turn%2 == 1) {
                 button8.text = "X"
                 b8 = 1
@@ -585,10 +614,14 @@ class MainActivity : AppCompatActivity() {
             }
             if(b2 == b5 && b5 == b8){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -598,13 +631,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             if(b7 == b8 && b7 == b9){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -614,14 +652,17 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             turn += 1
             button8.isClickable = false
             if (turn == 10){
                 Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+                buttonResultShare.visibility = View.VISIBLE
             }
         }
         button9.setOnClickListener{
+            buttonSymbol.isEnabled = false
             if (turn%2 == 1) {
                 button9.text = "X"
                 b9 = 1
@@ -632,10 +673,14 @@ class MainActivity : AppCompatActivity() {
             }
             if(b1 == b5 && b1 == b9){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -645,29 +690,18 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             if(b3 == b6 && b9 == b3){
                 turn %= 2
-                if (turn == 1)
+                if (turn == 1) {
                     Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
                     Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-
-                button1.isClickable = false
-                button2.isClickable = false
-                button3.isClickable = false
-                button4.isClickable = false
-                button5.isClickable = false
-                button6.isClickable = false
-                button7.isClickable = false
-                button8.isClickable = false
-                button9.isClickable = false}
-            if(b7 == b8 && b7 == b9){
-                turn %= 2
-                if (turn == 1)
-                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
-                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
                 button1.isClickable = false
                 button2.isClickable = false
                 button3.isClickable = false
@@ -677,14 +711,38 @@ class MainActivity : AppCompatActivity() {
                 button7.isClickable = false
                 button8.isClickable = false
                 button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
+            }
+            if(b7 == b8 && b7 == b9){
+                turn %= 2
+                if (turn == 1) {
+                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share X's game!"
+                }
+                else {
+                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
+                    buttonResultShare.text = "Share O's game!"
+                }
+                button1.isClickable = false
+                button2.isClickable = false
+                button3.isClickable = false
+                button4.isClickable = false
+                button5.isClickable = false
+                button6.isClickable = false
+                button7.isClickable = false
+                button8.isClickable = false
+                button9.isClickable = false
+                buttonResultShare.visibility = View.VISIBLE
             }
             turn += 1
             button9.isClickable = false
             if (turn == 10){
                 Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
+                buttonResultShare.visibility = View.VISIBLE
             }
         }
         buttonPlayAgain.setOnClickListener{
+            buttonSymbol.isEnabled = true
             button1.text = ""
             button2.text = ""
             button3.text = ""
@@ -704,6 +762,7 @@ class MainActivity : AppCompatActivity() {
             button7.isClickable = true
             button8.isClickable = true
             button9.isClickable = true
+            buttonResultShare.visibility = View.INVISIBLE
 
             turn = 1
             b1 = 0
@@ -716,128 +775,28 @@ class MainActivity : AppCompatActivity() {
             b8 = b1
             b9 = b1
         }
-    }
-
-    //This was mostly a proof of concept and not required
-    private fun outsideB1(): Int {
-        if (turn%2 == 1) {
-            button1.text = "X"
-            b1 = 1
-            if(b1 == b2 && b1 == b3){
-                turn %= 2
-                if (turn == 1)
-                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
-                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-                button1.isClickable = false
-                button2.isClickable = false
-                button3.isClickable = false
-                button4.isClickable = false
-                button5.isClickable = false
-                button6.isClickable = false
-                button7.isClickable = false
-                button8.isClickable = false
-                button9.isClickable = false
-            }
-            if(b1 == b4 && b1 == b7){
-                turn %= 2
-                if (turn == 1)
-                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
-                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-                button1.isClickable = false
-                button2.isClickable = false
-                button3.isClickable = false
-                button4.isClickable = false
-                button5.isClickable = false
-                button6.isClickable = false
-                button7.isClickable = false
-                button8.isClickable = false
-                button9.isClickable = false
-            }
-            if(b1 == b5 && b1 == b9){
-                turn %= 2
-                if (turn == 1)
-                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
-                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-                button1.isClickable = false
-                button2.isClickable = false
-                button3.isClickable = false
-                button4.isClickable = false
-                button5.isClickable = false
-                button6.isClickable = false
-                button7.isClickable = false
-                button8.isClickable = false
-                button9.isClickable = false
-            }
-            turn += 1
-            button1.isClickable = false
-            if (turn == 10){
-                Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
-            }
-            return b1
-        }
-        else {
-            button1.text = "O"
-            b1 = 2
-            if(b1 == b2 && b1 == b3){
-                turn %= 2
-                if (turn == 1)
-                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
-                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-                button1.isClickable = false
-                button2.isClickable = false
-                button3.isClickable = false
-                button4.isClickable = false
-                button5.isClickable = false
-                button6.isClickable = false
-                button7.isClickable = false
-                button8.isClickable = false
-                button9.isClickable = false
-            }
-            if(b1 == b4 && b1 == b7){
-                turn %= 2
-                if (turn == 1)
-                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
-                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-                button1.isClickable = false
-                button2.isClickable = false
-                button3.isClickable = false
-                button4.isClickable = false
-                button5.isClickable = false
-                button6.isClickable = false
-                button7.isClickable = false
-                button8.isClickable = false
-                button9.isClickable = false
-            }
-            if(b1 == b5 && b1 == b9){
-                turn %= 2
-                if (turn == 1)
-                    Toast.makeText(this, "$dootX", Toast.LENGTH_SHORT).show()
-                else
-                    Toast.makeText(this, "$dootO", Toast.LENGTH_SHORT).show()
-                button1.isClickable = false
-                button2.isClickable = false
-                button3.isClickable = false
-                button4.isClickable = false
-                button5.isClickable = false
-                button6.isClickable = false
-                button7.isClickable = false
-                button8.isClickable = false
-                button9.isClickable = false
-            }
-            turn += 1
-            button1.isClickable = false
-            if (turn == 10){
-                Toast.makeText(this, "$dootDraw", Toast.LENGTH_SHORT).show()
-            }
-            return b1
+        buttonResultShare.setOnClickListener{
+            messageSend()
         }
     }
 
+    fun messageSend(){
+        Intent(Intent.ACTION_SEND).apply{
+            //type = HTTP.PLAIN_TEXT_TYPE
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("geoffreythestudent@gmail.com")) // recipients
+            putExtra(Intent.EXTRA_SUBJECT, "Email subject")
+            putExtra(Intent.EXTRA_TEXT, "Email message text")
+            putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"))
+        }
+        val intent = Intent(Intent.ACTION_SEND)
+        val title = resources.getString(R.string.chooser_title)
+        val chooser = Intent.createChooser(intent, title)
+        startActivity(chooser)
+        /*val intent = Intent(Intent.ACTION_SEND)
+        val uri = Uri.parse("smsto:7248845264")
+        intent.putExtra("sms_body", "Message")
+        startActivity(intent)*/
+    }
 
     override fun onStop() {
         super.onStop()

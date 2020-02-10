@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">lab02_tictactoe</string>
+    <string name="doot">12</string>
+    <string name="chooser_title">chooser</string>
 </resources>
